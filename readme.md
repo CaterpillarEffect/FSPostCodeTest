@@ -74,7 +74,10 @@ The following dependencies are used:
 ````
  mvn clean compile exec:java
 ````
-
+or if you want to test a postcode from command line use : 
+``````
+mvn exec:java -Dexec.mainClass=test.Postcode -Dexec.args="'yourpostcode' 'yourpostcode'"
+````````````````
 In order to run the tests, use the following maven commands:
 ````
  mvn clean test
