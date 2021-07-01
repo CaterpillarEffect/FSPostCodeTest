@@ -34,7 +34,8 @@ private Result result;
         @Override
         public String toString()
         {
-            return " = "+result+", status = "+status;
+            return ""+result;
+                    //+", status = "+status;
         }
     }
 

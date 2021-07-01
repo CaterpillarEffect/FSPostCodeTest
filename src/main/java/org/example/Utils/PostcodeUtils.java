@@ -28,20 +28,7 @@ public class PostcodeUtils {
         this.postcode = Postcode;
     }
 
-    ;
 
-
-    public void checkPostCodeParameter() {
-        int statusCode = response.path("status");
-        String errorMessage = response.path("error");
-        String actualPostCode = response.path("result.postcode");
-        actualPostCode = actualPostCode.replaceAll("\\s", "");
-        if (statusCode == 200) {
-            assertEquals(postcode, actualPostCode);
-        } else if (statusCode == 404 && errorMessage.equals("Invalid postcode")) {
-            System.out.println(errorMessage);
-        }
-    }
 
 
         public boolean getPostCodeValidation() {
@@ -53,17 +40,18 @@ public class PostcodeUtils {
 
                 validPostcode = answer.validatePostCode(postcode).path("result");
 
-                //assertTrue(validPostcode);
                 if (!validPostcode) {
                     String errorMessage = answer.getPostcode(postcode).path("error");
-                    System.out.println("ErrorMessage = " + errorMessage);
-                    System.out.println(postcode + " : Is Invalid Postcode");
+
+                    System.out.println(postcode + " : Is "+errorMessage);
 
                 }
+
+
             } catch (Exception e) {
-                String errorMessage = answer.validatePostCode(postcode).path("error");
-                System.out.println("ErrorMessage = " + errorMessage);
-                System.out.println(postcode + " : Is Invalid Postcode");
+                String errorMessage = answer.getPostcode(postcode).path("error");
+
+                System.out.println(postcode + " : is "+errorMessage);
             }
             return validPostcode;
         }
@@ -72,7 +60,8 @@ public class PostcodeUtils {
         public void getPostcode(){
 
         pcodepojo v =checkPostcode();
-        printPostcodeRegioncountry(getPostcodeRegionandCountry(v));
+        System.out.println(v.toString());
+
 
 
 
@@ -94,21 +83,7 @@ public class PostcodeUtils {
         return null;
 
         }
-        public List <String> getPostcodeRegionandCountry(pcodepojo pcjo){
-        getRegionCountryPostcodePcodepojo getRCP = new getRegionCountryPostcodePcodepojo();
-        List<String>Postcodedetails = new ArrayList<>() ;
 
-        String Actualpostcode = getRCP.getPostcode(pcjo);
-        String Actualregion = getRCP.getRegion(pcjo);
-        String ActualCountry = getRCP.getCountry(pcjo);
-        Postcodedetails.add(Actualpostcode);
-        Postcodedetails.add(Actualregion);
-        Postcodedetails.add(ActualCountry);
-
-            return Postcodedetails;
-
-
-        }
 
 
         public List<Result> nearestPostcodes ( int radius){
@@ -134,31 +109,8 @@ public class PostcodeUtils {
 
         }
 
-        public void printPostcodeRegioncountry(List<String> list){
-            System.out.println("Postcode: "+list.get(0));
-            System.out.println("Region: "+list.get(1));
-            System.out.println("Country: "+list.get(2));
-        }
 
 
-    public String getPostCode(String postCode) {
-        // this.postCodeParameter = postCode.toUpperCase().trim();
-        response = given().accept(ContentType.JSON)
-                .baseUri(Utils.getBaseURI())
-                .pathParam("postcodes", postCode)
-                .when().get("/postcodes/{postcodes}/");
-        if (response.statusCode() == 200) {
-            checkPostCodeParameter();
-
-            String s=          response.path("result.postcode");
-            return s.replaceAll("\\s","");
-
-        } else {
-            String errorMessage = response.path("error");
-            System.out.println(postCode + " is " + errorMessage);
-            return errorMessage;
-        }
-    }
 
 
     }
