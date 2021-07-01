@@ -1,6 +1,8 @@
 package org.example;
 
+import org.example.Pojos.pcodepojo;
 import org.example.Utils.PostcodeUtils;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TestClass {
     PostcodeUtils util;
 
+    pcodepojo pc = new pcodepojo();
+
     @ParameterizedTest
     @ValueSource(strings = {"s117ty", "IM4 4QN", "KT11 1JT", "KT5 9AN", "CB3 0FA"})
     public void checkingMultiplePostCodes(String postCodes) {
@@ -26,7 +30,8 @@ public class TestClass {
 
 
         if (util.getPostCodeValidation()) {
-            actual = util.getPostcodeRegionandCountry(util.checkPostcode()).get(0).replaceAll("\\s", "");
+            pc=util.checkPostcode();
+            actual = pc.getResult().getPostcode().replaceAll("\\s", "");
         }
 
 
@@ -42,18 +47,21 @@ public class TestClass {
 
             util = new PostcodeUtils("rh11lp");
 
-            Assertions.assertEquals("Postcode not found", util.getPostCode("rh11lp"));
+            Assert.assertFalse("Postcode not found", util.getPostCodeValidation());
         }
 
     @ParameterizedTest
     @CsvSource({"CB3 0FA,England,East of England", "M1 1AF,England,North West", "GU16 7HF,England,South East"})
     public void printCountryAndRegionName(String postCode, String country, String region) {
-        postCode = postCode.replaceAll("\\s", "");
+        postCode = postCode.replaceAll("\\s", "").toUpperCase();
          util = new PostcodeUtils(postCode);
-        List<String> list = util.getPostcodeRegionandCountry(util.checkPostcode());
 
-        assertEquals(country, list.get(2));
-        assertEquals(region, list.get(1));
+        pc = util.checkPostcode();
+
+
+        assertEquals(country, pc.getResult().getCountry());
+        assertEquals(region, pc.getResult().getRegion());
+        assertEquals(postCode, pc.getResult().getPostcode().replaceAll("\\s", ""));
 
     }
 
