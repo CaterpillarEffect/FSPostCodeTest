@@ -1,6 +1,6 @@
  # Feature Space Post Code Test Project
  
- ##Introduction
+ ## Introduction
 Name| XXXXXXXXXXX
 ---------------|-------------
 Project| Featurespace Coding Test - Java
@@ -8,11 +8,11 @@ REST API used| http://postcodes.io
 Build Tool|Maven
 
 
-###Purpose
+### Purpose
 This project uses Java to query a  JSON Formatted REST API for a UK Postcode and list nearby Postcodes.
  The Java code is then tested through Unit Tests.
 
-######Project Requirements: 
+###### Project Requirements: 
     • Your application should accept a postcode as an argument to its main() method.
     • It should query the API to:
         ◦ Validate the postcode parameter – invalid postcodes should produce an error message
@@ -21,7 +21,7 @@ This project uses Java to query a  JSON Formatted REST API for a UK Postcode and
         Please add some unit tests - don’t go overboard, but show us an example or two of some edge cases or things that could go wrong.
 
 
-######Implementation
+###### Implementation
 
 A JavaClass for looking up postcodes through the API was created along with a TestClass for Unit Tests. 
 ![](.readme_images/03c24252.png)
@@ -58,7 +58,7 @@ As its Maven project, its assumed that the host has Maven as well as JAVA_HOME i
 Here is a link for Maven Installation if needed: 
 https://maven.apache.org/install.html
 
-#####Dependencies 
+##### Dependencies 
 The following dependencies are used:
 * JUnit
 * Jupiter API
@@ -74,7 +74,10 @@ The following dependencies are used:
 ````
  mvn clean compile exec:java
 ````
-
+or if you want to test a postcode from command line use : 
+``````
+mvn exec:java -Dexec.mainClass=test.Postcode -Dexec.args="'yourpostcode' 'yourpostcode'"
+````````````````
 In order to run the tests, use the following maven commands:
 ````
  mvn clean test
